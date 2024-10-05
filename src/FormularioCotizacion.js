@@ -21,13 +21,13 @@ const FormularioCotizacion = () => {
                 let precioBase;
                 switch (tamanoHabitacion) {
                     case 'pequeña':
-                        precioBase = 75000;
+                        precioBase = 60000;
                         break;
                     case 'mediana':
-                        precioBase = 90000;
+                        precioBase = 75000;
                         break;
                     case 'grande':
-                        precioBase = 120000;
+                        precioBase = 105000;
                         break;
                 }
                 total += cantidadHabitaciones * precioBase;
@@ -40,17 +40,25 @@ const FormularioCotizacion = () => {
                 break;
         }
 
-        if (estucar) total += 20000;
-        if (resanar) total += 18000;
-        if (habitada) total += 13000;
-        if (ubicacion !== 'soacha') total += 40000;
+        if (estucar) total += 18000;
+        if (resanar) total += 15000;
+        if (habitada) total += 9000;
+        if (ubicacion !== 'soacha') total += 30000;
 
+        return total;
+    };
+
+    const handleCalcular = () => {
+        console.log(44);
+        const total = calcularCotizacion();
         setCotizacion(total);
+        console.log(total);
     };
 
     const exportarPDF = () => {
-        // Primero calculamos la cotización antes de generar el PDF
-        calcularCotizacion();
+        // Calculamos la cotización actualizada
+        const totalActualizado = calcularCotizacion();
+        setCotizacion(totalActualizado);
 
         const doc = new jsPDF();
 
@@ -102,7 +110,7 @@ const FormularioCotizacion = () => {
         // Cotización total
         doc.setFontSize(18);
         doc.setTextColor(255, 0, 0); // Rojo
-        doc.text(`Cotización total aproximada: $${cotizacion.toLocaleString()} COP`, pageWidth / 2, margin + 140, { align: 'center' });
+        doc.text(`Cotización total aproximada: $${totalActualizado.toLocaleString()} COP`, pageWidth / 2, margin + 140, { align: 'center' });
 
         // Nota al final
         doc.setFontSize(10);
@@ -278,7 +286,7 @@ const FormularioCotizacion = () => {
             <div className="flex flex-col items-center justify-between">
                 <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 w-full"
-                    onClick={calcularCotizacion}
+                    onClick={handleCalcular}
                 >
                     Calcular
                 </button>
@@ -288,13 +296,21 @@ const FormularioCotizacion = () => {
                             Cotización aproximada: ${cotizacion.toLocaleString()} COP
                         </div>
                         <button
-                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                            className="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
                             onClick={exportarPDF}
                         >
                             Exportar a PDF
                         </button>
                     </>
                 )}
+                <a
+                href={`https://wa.me/573197954808`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-center bg-green-800 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
+            >
+                WhatsApp
+            </a>
             </div>
         </div>
     );
