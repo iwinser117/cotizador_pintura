@@ -22,6 +22,7 @@ const FormularioCotizacion = () => {
     const [ubicacion, setUbicacion] = useState('soacha');
     const [cotizacion, setCotizacion] = useState(null);
     const [showInfo, setShowInfo] = useState('');
+    const [isTracked, setIsTracked] = useState(false);
 
     const calcularCotizacion = () => {
         let total = 0;
@@ -58,11 +59,38 @@ const FormularioCotizacion = () => {
         return total;
     };
 
-    const handleCalcular = () => {
-        console.log(44);
+    const handleCalcular = async () => {
+
         const total = calcularCotizacion();
         setCotizacion(total);
-        console.log(total);
+
+        if (!isTracked) {
+            const data = {
+                ip: 'dummy_ip', // Cambia esto por la IP real si la tienes
+                userAgent: navigator.userAgent,
+                appName: 'iwinser_app', // El nombre de tu aplicación
+                totalCotizacion: total, // Total de la cotización
+            };
+
+            try {
+                const response = await fetch('https://endpointlogapp-production.up.railway.app/track', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al registrar la visita');
+                }
+
+                console.log('Visita registrada con éxito');
+                setIsTracked(true); // Cambia el flag a true
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
     };
 
     const exportarPDF = () => {
@@ -167,7 +195,7 @@ const FormularioCotizacion = () => {
             <h2 className="text-2xl font-bold mb-6 text-center">Cotización Rápida de Pintura Interiores</h2>
             <div>
 
-            <PlanoInteractivo onRoomsChange={handleRoomsChange} />
+                <PlanoInteractivo onRoomsChange={handleRoomsChange} />
             </div>
 
             <div className="mt-4 text-lg">
