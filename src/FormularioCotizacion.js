@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
+import PlanoInteractivo from './PlanoInteractivo';
 
 const FormularioCotizacion = () => {
+    const [movedRooms, setMovedRooms] = useState([]);
+    const [totalArea, setTotalArea] = useState(0);
+
+    const handleRoomsChange = (rooms) => {
+        setMovedRooms(rooms);
+        const total = rooms.reduce((acc, room) => acc + room.area, 0); // Suma de áreas
+        setTotalArea(total);
+    };
+
     const [tipoServicio, setTipoServicio] = useState('');
     const [cantidadHabitaciones, setCantidadHabitaciones] = useState(1);
     const [tamanoHabitacion, setTamanoHabitacion] = useState('mediana');
@@ -21,13 +31,13 @@ const FormularioCotizacion = () => {
                 let precioBase;
                 switch (tamanoHabitacion) {
                     case 'pequeña':
-                        precioBase = 60000;
+                        precioBase = 88000;
                         break;
                     case 'mediana':
-                        precioBase = 75000;
+                        precioBase = 137000;
                         break;
                     case 'grande':
-                        precioBase = 105000;
+                        precioBase = 195000;
                         break;
                 }
                 total += cantidadHabitaciones * precioBase;
@@ -36,7 +46,7 @@ const FormularioCotizacion = () => {
                 total += parseInt(areaBodega) * 13000;
                 break;
             case 'casa_completa':
-                total += 830000;
+                total += 940000;
                 break;
         }
 
@@ -95,7 +105,6 @@ const FormularioCotizacion = () => {
             doc.text(`Cantidad de habitaciones: ${cantidadHabitaciones}`, margin, margin + 60);
             doc.text(`Tamaño de habitación: ${tamanoHabitacion}`, margin, margin + 70);
         } else if (tipoServicio === 'bodega') {
-            doc.text(`Área de la bodega: ${areaBodega} m²`, margin, margin + 60);
         }
 
         // Información adicional
@@ -123,7 +132,7 @@ const FormularioCotizacion = () => {
         doc.setTextColor(0, 0, 0); // Negro
         doc.text(`Fecha y hora: ${formattedDate}`, margin, pageHeight - 30);
         doc.setTextColor(180, 210, 210);
-        doc.text('Generado por Iwinser_Sanchez', margin, pageHeight - 20);
+        doc.text('Generado por iwinser_app', margin, pageHeight - 20);
 
         // Guardar el PDF
         doc.save('cotizacion-pintura.pdf');
@@ -145,7 +154,6 @@ const FormularioCotizacion = () => {
             estucar: "Estucar se refiere a rellenar y alisar imperfecciones en la pared, como agujeros dejados por clavos o lámparas, o mejorar el acabado de los bordes de las paredes.",
             resanar: "Resanar implica reparar áreas dañadas por humedad, grietas o desprendimientos en la pared antes de pintar.",
             habitada: "Un espacio habitado implica que hay muebles o pertenencias en la habitación. Es preferible que las paredes estén despejadas para facilitar el trabajo.",
-            tamanos: "Tamaños aproximados de habitaciones:\nPequeña: hasta 9 m²\nMediana: de 9 a 15 m²\nGrande: más de 15 m²"
         };
         return showInfo === type ? (
             <div className="mt-2 text-sm text-gray-600 bg-gray-100 p-2 rounded">
@@ -157,9 +165,16 @@ const FormularioCotizacion = () => {
     return (
         <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 className="text-2xl font-bold mb-6 text-center">Cotización Rápida de Pintura Interiores</h2>
+            <div>
 
+            <PlanoInteractivo onRoomsChange={handleRoomsChange} />
+            </div>
+
+            <div className="mt-4 text-lg">
+            </div>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tipoServicio">
+                    <h3 className='text-center text-xl font-bold'>Opcion 2 - Seleccionando el tipo de unidad a pintar</h3>
                     Tipo de Servicio
                 </label>
                 <select
@@ -213,7 +228,6 @@ const FormularioCotizacion = () => {
             {tipoServicio === 'bodega' && (
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="areaBodega">
-                        Área de la Bodega (m²)
                     </label>
                     <input
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -304,13 +318,13 @@ const FormularioCotizacion = () => {
                     </>
                 )}
                 <a
-                href={`https://wa.me/573197954808`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-center bg-green-800 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
-            >
-                WhatsApp
-            </a>
+                    href={`https://wa.me/573197954808`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-center bg-green-800 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
+                >
+                    WhatsApp
+                </a>
             </div>
         </div>
     );
