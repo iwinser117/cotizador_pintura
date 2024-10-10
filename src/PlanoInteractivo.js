@@ -97,7 +97,7 @@ const PlanoInteractivo = () => {
 
             if (!isInside) {
                 setTimeout(() => {
-                    setRooms((prevRooms) => prevRooms.filter(room => room.id !== id));
+                    setMovedRooms((prevRooms) => prevRooms.filter((room) => room.id !== id));
                 }, 5000);
             }
     
