@@ -66,10 +66,9 @@ const FormularioCotizacion = () => {
 
         if (!isTracked) {
             const data = {
-                ip: 'dummy_ip', // Cambia esto por la IP real si la tienes
                 userAgent: navigator.userAgent,
-                appName: 'iwinser_app', // El nombre de tu aplicación
-                totalCotizacion: total, // Total de la cotización
+                appName: 'iwinser_app',
+                totalCotizacion: total,
             };
 
             try {
