@@ -22,7 +22,8 @@ const FormularioCotizacion = () => {
     const [ubicacion, setUbicacion] = useState('soacha');
     const [cotizacion, setCotizacion] = useState(null);
     const [showInfo, setShowInfo] = useState('');
-    const [isTracked, setIsTracked] = useState(false);
+    const [isTracked, setIsTracked] = useState(1);
+    const ENVIOS_LIMIT = 5;
 
     const calcularCotizacion = () => {
         let total = 0;
@@ -64,10 +65,11 @@ const FormularioCotizacion = () => {
         const total = calcularCotizacion();
         setCotizacion(total);
 
-        if (!isTracked) {
+        if (isTracked < ENVIOS_LIMIT){
+            setIsTracked(isTracked + 1);
             const data = {
                 userAgent: navigator.userAgent,
-                appName: 'iwinser_app',
+                appName: 'cotizacion pintura',
                 totalCotizacion: total,
             };
 
@@ -84,8 +86,6 @@ const FormularioCotizacion = () => {
                     throw new Error('Error al registrar la visita');
                 }
 
-                console.log('Visita registrada con éxito');
-                setIsTracked(true); // Cambia el flag a true
             } catch (error) {
                 console.error('Error:', error);
             }
