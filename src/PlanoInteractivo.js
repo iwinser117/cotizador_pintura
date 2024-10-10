@@ -96,9 +96,7 @@ const PlanoInteractivo = () => {
             );
 
             if (!isInside) {
-                setTimeout(() => {
-                    setMovedRooms((prevRooms) => prevRooms.filter((room) => room.id !== id));
-                }, 5000);
+                setRooms((prevRooms) => prevRooms.filter(room => room.id !== id));
             }
     
             // Calcular el área total
@@ -115,7 +113,7 @@ const PlanoInteractivo = () => {
     return (
         <div>
             <h3 className='text-center text-xl font-bold'>Opcion 1 - Arrastra las habitaciones al plano</h3>
-
+            <i>"Si estas en movil habilitar vista ordenador para una mejor experiencia"</i>
             {/* Botones para agregar habitaciones */}
             <div>
                 <button
