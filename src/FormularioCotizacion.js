@@ -65,7 +65,7 @@ const FormularioCotizacion = () => {
         const total = calcularCotizacion();
         setCotizacion(total);
 
-        if (isTracked < ENVIOS_LIMIT){
+        if (isTracked < ENVIOS_LIMIT) {
             setIsTracked(isTracked + 1);
             const data = {
                 userAgent: navigator.userAgent,
@@ -192,6 +192,9 @@ const FormularioCotizacion = () => {
     return (
         <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 className="text-2xl font-bold mb-6 text-center">Cotización Rápida de Pintura Interiores</h2>
+            <i className="italic text-sm text-gray-600 block mt-4 mb-4">
+                Recuerda que el cálculo actual no representa los valores reales, es solo un aproximado ya que no se tienen en cuenta las medidas de puertas y/o ventanas o cielorrasos, además de añadir acabados o tratados en superficies con humedad o irregularidades
+            </i>
             <div>
 
                 <PlanoInteractivo onRoomsChange={handleRoomsChange} />
