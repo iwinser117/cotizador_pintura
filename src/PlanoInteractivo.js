@@ -63,7 +63,7 @@ const PlanoInteractivo = () => {
     const [movedRooms, setMovedRooms] = useState([]);
     const [totalArea, setTotalArea] = useState(0);
 
-    
+
 
     const addRoom = (type) => {
         const roomStyle = roomStyles[type];
@@ -85,12 +85,12 @@ const PlanoInteractivo = () => {
         setMovedRooms((prevRooms) => {
             const updatedRooms = prevRooms.filter((room) => room.id !== id);
             updatedRooms.push({ id, x, y, area, isInside });
-    
+
             // Cambiar el color de la habitación si está dentro o fuera del contenedor
-            setRooms((prevRooms) => 
-                prevRooms.map(room => 
-                    room.id === id 
-                        ? { ...room, style: { ...room.style, backgroundColor: isInside ? roomStyles[room.type].backgroundColor : '#E0E0E0' } } 
+            setRooms((prevRooms) =>
+                prevRooms.map(room =>
+                    room.id === id
+                        ? { ...room, style: { ...room.style, backgroundColor: isInside ? roomStyles[room.type].backgroundColor : '#E0E0E0' } }
                         : room
                 )
             );
@@ -98,21 +98,21 @@ const PlanoInteractivo = () => {
             if (!isInside) {
                 setRooms((prevRooms) => prevRooms.filter(room => room.id !== id));
             }
-    
+
             // Calcular el área total
             const total = updatedRooms
                 .filter((room) => room.isInside)
                 .reduce((acc, room) => acc + room.area, 0);
-    
+
             setTotalArea(total);
             return updatedRooms;
         });
     };
-    
+
 
     return (
         <div>
-            <h3 className='text-center text-xl font-bold'>Opcion 1 - Arrastra las habitaciones al plano</h3>
+            <h3 className='text-center text-gray-700 text-xl font-bold'>Opcion 1 - Agrega las habitaciones al plano</h3>
             <i>"Si estas en movil habilitar vista ordenador para una mejor experiencia"</i>
             {/* Botones para agregar habitaciones */}
             <div>
@@ -228,11 +228,24 @@ const PlanoInteractivo = () => {
                         onPositionChange={handlePositionChange}
                     />
                 ))}
+                <h2
+                    className="text-gray-600"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        pointerEvents: 'none',
+                        userSelect: 'none'
+                    }}
+                >
+                    Arrastre y distribuya las habitaciones
+                </h2>
             </div>
 
             {/* Mostrar el área total */}
             <div style={{ marginTop: '20px' }}>
-                {}
+                { }
                 <h4>Área Total: {(totalArea * 2.20).toFixed(2)} m</h4>
                 <h4>Valor Aproximado: {new Intl.NumberFormat('es-CO', {
                     style: 'currency',
